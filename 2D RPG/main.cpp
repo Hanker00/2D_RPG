@@ -22,6 +22,8 @@
 
 int main(int, char const**)
 {
+    // Variables
+    float playerMovementSpeed = 2;
     // Create the main window
     sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
 
@@ -38,6 +40,15 @@ int main(int, char const**)
         return EXIT_FAILURE;
     }
     sf::Sprite sprite(texture);
+
+    // Load a sprite to display
+    sf::Texture texturePlayer;
+    if (!texturePlayer.loadFromFile(resourcePath() + Adventurer.png)) {
+        return EXIT_FAILURE;
+    }
+    sf::Sprite spritePlayer(texturePlayer);
+    spritePlayer.setPosition(window.getSize().x/2, window.getSize().y/2);
+    spritePlayer.setTexturerect(sf..IntRect(0, 0, 50, 37));
 
     // Create a graphical text to display
     sf::Font font;
@@ -77,11 +88,35 @@ int main(int, char const**)
         // Clear screen
         window.clear();
 
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+        {
+            spritePlayer.move(0, -playerMovementSpeed);
+        }
+        
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+        {
+            spritePlayer.move(0,playerMovementSpeed);
+        }
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+        {
+            spritePlayer.move(-playerMovementSpeed,0);
+        }
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+        {
+            spritePlayer.move(playerMovementSpeed,0);
+        }
+
+
         // Draw the sprite
         window.draw(sprite);
 
         // Draw the string
         window.draw(text);
+
+        //draw Player
+        window.draw(spritePlayer);
 
         // Update the window
         window.display();
